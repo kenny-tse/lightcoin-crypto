@@ -1,29 +1,65 @@
-let balance = 500.00;
+class Account {
 
-class Withdrawal {
+  balance = 0;
+  transaction = [];
 
-  constructor(amount) {
-    this.amount = amount;
+  constructor(username) {
+    this.username = username;
   }
 
-  commit() {
-    balance -= this.amount;
+  addTransaction(transaction) {
+    this.transaction.push(transaction);
   }
+
+  printTransactions() {
+    for (let i = 0; i < this.transaction.length; i++) {
+      console.log(this.transaction[i]);
+    }
+  }
+
 
 }
 
+class Transaction {
+  constructor(amount, account) {
+    this.amount = amount;
+    this.account = account;
+  }
+  commit() {
+    if (this.account.balance += this.value < 0) {
+      console.log("You cannot withddrawl less than you have!")
+      return;
+    }
+    let startingBalance = this.account.balance;
+    this.account.balance += this.value;
+    this.time = new Date();
+    this.account.addTransaction(`${this.time} - \nStarting balance: ${startingBalance} \nEnding Balance: ${this.account.balance}`);
+  }
+}
 
+class Deposit extends Transaction {
+  get value() {
+    return this.amount
+  }
+}
 
+class Withdrawal extends Transaction {
+  get value() {
+    return -this.amount;
+  }
+}
 
 // DRIVER CODE BELOW
-// We use the code below to "drive" the application logic above and make sure it's working as expected
+const myAccount = new Account('billybob');
 
-t1 = new Withdrawal(50.25);
+console.log('Starting Balance:', myAccount.balance);
+
+const t1 = new Deposit(120.00, myAccount);
 t1.commit();
-console.log('Transaction 1:', t1);
 
-t2 = new Withdrawal(9.99);
+const t2 = new Withdrawal(500.00, myAccount);
 t2.commit();
-console.log('Transaction 2:', t2);
 
-console.log('Balance:', balance);
+myAccount.printTransactions();
+
+
